@@ -12,9 +12,26 @@ debug = DebugToolbarExtension(app)
 
 RESPONSES_KEY = 'responses'
 
+
+
+
+# @app.route('/results')
+# def show_results():
+
+#     example_responses = ['Yes', 'No', 'Less than $10,000', 'Yes']
+#     session[RESPONSES_KEY] = example_responses
+#     responses = session.get(RESPONSES_KEY)
+#     return f"Responses: {responses}"
+
 # @app.route('/404')
 # def page_not_found():
 #     abort(404)
+
+# @app.route('/debug')
+# def debug():
+#     return str(RESPONSES_KEY)
+
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -24,7 +41,8 @@ def page_not_found(e):
 @app.route('/')
 def home_page():
     
-    return render_template('survey_start.html', survey=survey)
+    responses = session.get('responses', [])
+    return render_template('survey_start.html', survey=survey, responses=responses)
 
 
 @app.route('/begin', methods=["POST"])
@@ -73,5 +91,9 @@ def handle_answers():
 @app.route('/complete')
 def complete():
     
-    return render_template('complete.html')
+    responses = session.get('reponses')
+    if responses is None:
+        return redirect('/')
+    else:
+        return render_template('complete.html')
     
