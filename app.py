@@ -31,6 +31,11 @@ RESPONSES_KEY = 'responses'
 # def debug():
 #     return str(RESPONSES_KEY)
 
+# @app.route('/session')
+# def check_session():
+#     return str(session.get('responses'))
+
+
 
 
 @app.errorhandler(404)
